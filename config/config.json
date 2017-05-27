@@ -1,0 +1,290 @@
+{
+    "type": "array",
+    "properties": [{
+            "key": "cluster",
+            "description": "NextCloud cluster properties",
+            "type": "array",
+            "label": "cluster",
+            "properties": [{
+                    "key": "name",
+                    "label": "name",
+                    "description": "The name of the NextCloud service",
+                    "type": "string",
+                    "default": "NextCloud",
+                    "required": "no"
+                },
+                {
+                    "key": "description",
+                    "label": "description",
+                    "description": "The description of the NextCloud service",
+                    "type": "string",
+                    "default": "",
+                    "required": "no"
+                },
+                {
+                    "key": "vxnet",
+                    "label": "vxnet",
+                    "description": "Choose a vxnet to join",
+                    "type": "string",
+                    "default": "",
+                    "required": "yes"
+                },
+                {
+                    "key": "nextcloud_nodes",
+                    "description": "NextCloud nodes",
+                    "label": "nextcloud_nodes",
+                    "type": "array",
+                    "properties": [{
+                            "key": "loadbalancer",
+                            "label": "loadbalancer",
+                            "description": "Choose a loadbalancer service with EIP to use (When you create loadbalancer, you need to select the Internet type. Loadbalancer listener need to enable Session Sticky and set Timeout to 86400s. Listener protocol could be http and https.)",
+                            "type": "loadbalancer",
+                            "port": 80,
+                            "default": [],
+                            "required": "yes"
+                        },
+                        {
+                            "key": "cpu",
+                            "label": "CPU",
+                            "description": "CPUs of each node",
+                            "type": "integer",
+                            "default": 1,
+                            "range": [
+                                1,
+                                2,
+                                4,
+                                8,
+                                12,
+                                16
+                            ],
+                            "required": "yes"
+                        },
+                        {
+                            "key": "memory",
+                            "label": "Memory",
+                            "description": "memory of each node (in MiB)",
+                            "type": "integer",
+                            "default": 2048,
+                            "range": [
+                                1024,
+                                2048,
+                                4096,
+                                6144,
+                                8192,
+                                12288,
+                                16384,
+                                24576,
+                                32768,
+                                40960,
+                                49152,
+                                65536
+                            ],
+                            "required": "yes"
+                        },
+                        {
+                            "key": "count",
+                            "label": "count",
+                            "description": "Number of nodes for the cluster to create",
+                            "type": "integer",
+                            "default": 3,
+                            "max": 100,
+                            "min": 1,
+                            "required": "yes"
+                        },
+                        {
+                            "key": "instance_class",
+                            "label": "instance class",
+                            "description": "The instance type for the cluster to run, such as high performance, high performance plus",
+                            "type": "integer",
+                            "default": 0,
+                            "range": [0, 1],
+                            "required": "yes"
+                        },
+                        {
+                            "key": "volume_size",
+                            "label": "volume size",
+                            "description": "The volume size for each cluster's tmp which used as upload cache",
+                            "type": "integer",
+                            "default": 10,
+                            "min": 10,
+                            "max": 1000,
+                            "step": 10,
+                            "required": "yes"
+                        }
+                    ]
+                },
+                {
+                    "key": "mysql",
+                    "description": "NextCloud mysql service",
+                    "type": "array",
+                    "label": "mysql",
+                    "properties": [{
+                            "key": "cpu",
+                            "label": "CPU",
+                            "description": "CPUs of each node",
+                            "type": "integer",
+                            "default": 1,
+                            "range": [
+                                1,
+                                2,
+                                4,
+                                8,
+                                12,
+                                16
+                            ],
+                            "required": "yes"
+                        },
+                        {
+                            "key": "memory",
+                            "label": "Memory",
+                            "description": "memory of each node (in MiB)",
+                            "type": "integer",
+                            "default": 2048,
+                            "range": [
+                                1024,
+                                2048,
+                                4096,
+                                6144,
+                                8192,
+                                12288,
+                                16384,
+                                24576,
+                                32768,
+                                40960,
+                                49152,
+                                65536
+                            ],
+                            "required": "yes"
+                        },
+                        {
+                            "key": "instance_class",
+                            "label": "instance class",
+                            "description": "The instance type for the cluster to run, such as high performance, high performance plus",
+                            "type": "integer",
+                            "default": 0,
+                            "range": [0, 1],
+                            "required": "no"
+                        },
+                        {
+                            "key": "volume_size",
+                            "label": "volume size",
+                            "description": "The volume size for mysql data",
+                            "type": "integer",
+                            "default": 10,
+                            "min": 10,
+                            "max": 1000,
+                            "step": 10,
+                            "required": "yes"
+                        }
+                    ]
+                },
+                {
+                    "key": "redis",
+                    "description": "NextCloud redis service",
+                    "type": "array",
+                    "label": "redis",
+                    "properties": [{
+                            "key": "cpu",
+                            "label": "CPU",
+                            "description": "CPUs of each node",
+                            "type": "integer",
+                            "default": 1,
+                            "range": [
+                                1,
+                                2,
+                                4,
+                                8,
+                                12,
+                                16
+                            ],
+                            "required": "yes"
+                        },
+                        {
+                            "key": "memory",
+                            "label": "Memory",
+                            "description": "memory of each node (in MiB)",
+                            "type": "integer",
+                            "default": 2048,
+                            "range": [
+                                1024,
+                                2048,
+                                4096,
+                                6144,
+                                8192,
+                                12288,
+                                16384,
+                                24576,
+                                32768,
+                                40960,
+                                49152,
+                                65536
+                            ],
+                            "required": "yes"
+                        },
+                        {
+                            "key": "instance_class",
+                            "label": "instance class",
+                            "description": "The instance type for the cluster to run, such as high performance, high performance plus",
+                            "type": "integer",
+                            "default": 0,
+                            "range": [0, 1],
+                            "required": "no"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "key": "env",
+            "description": "application configuration properties",
+            "type": "array",
+            "properties": [{
+                    "key": "access_key_id",
+                    "label": "access_key_id",
+                    "description": "Provide an access_key_id to use",
+                    "type": "string",
+                    "changeable": true,
+                    "default": "",
+                    "required": "yes"
+                },
+                {
+                    "key": "secret_access_key",
+                    "label": "secret_access_key",
+                    "description": "Provide a secret_access_key to use",
+                    "type": "password",
+                    "changeable": true,
+                    "default": "",
+                    "required": "yes"
+                },
+                {
+                    "key": "zone",
+                    "label": "zone",
+                    "description": "Provide the zone of bucket to use",
+                    "type": "string",
+                    "changeable": false,
+                    "default": "pek3a",
+                    "range": ["pek3a", "sh1a"],
+                    "required": "yes"
+                },
+                {
+                    "key": "bucket",
+                    "label": "bucket",
+                    "description": "Provide the bucket name to use",
+                    "type": "string",
+                    "changeable": false,
+                    "default": "",
+                    "required": "yes"
+                },
+                {
+                    "key": "access_address",
+                    "label": "access_address",
+                    "description": "Provide the access address of this service to use, such as https://abc.xyz or http://1.2.3.4 . (You can use the loadbalancer's eip, if you use domain name, you need to configure A record to the load balancer bound EIP at the domain name resolver.)",
+                    "type": "string",
+                    "changeable": true,
+                    "default": "http://abc.xyz",
+                    "required": "yes"
+                }
+            ]
+        }
+    ]
+}

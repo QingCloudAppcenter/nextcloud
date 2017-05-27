@@ -1,0 +1,8 @@
+[template]
+src = "nextcloud.conf.tmpl"
+dest = "/etc/nginx/sites-available/nextcloud.conf"
+mode = "0644"
+keys = [
+    "/",
+]
+reload_cmd = "systemctl reload nginx"

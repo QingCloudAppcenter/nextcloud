@@ -1,0 +1,8 @@
+[template]
+src = "config.php.tmpl"
+dest = "/nextcloud/config/config.php"
+mode = "0644"
+owner = "www-data"
+keys = [
+    "/",
+]

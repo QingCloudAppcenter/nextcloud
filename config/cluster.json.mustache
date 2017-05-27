@@ -1,0 +1,107 @@
+{
+     "name": {{cluster.name}},
+     "description": {{cluster.description}},
+     "vxnet": {{cluster.vxnet}},
+     "nodes": [
+         {
+             "role": "nextcloud_nodes",
+             "container": {
+                 "type": "kvm",
+                 "zone": "pek3a",
+                 "image": "img-d89qqa2r"
+             },
+             "loadbalancer": {{cluster.nextcloud_nodes.loadbalancer}},
+             "instance_class": {{cluster.nextcloud_nodes.instance_class}},
+             "count": {{cluster.nextcloud_nodes.count}},
+             "cpu": {{cluster.nextcloud_nodes.cpu}},
+             "memory": {{cluster.nextcloud_nodes.memory}},
+             "volume": {
+                "size": {{cluster.nextcloud_nodes.volume_size}},
+                "mount_point": "/var/www/upload_cache",
+                "mount_options": "noatime,nodev,nosuid",
+                "filesystem": "ext4"
+            },
+             "vertical_scaling_policy": "sequential",
+             "services": {
+                 "start": {
+                    "order": 1,
+                    "cmd": "systemctl start php7.0-fpm;systemctl start nginx;"
+                 },
+                 "restart": {
+                   "cmd": "systemctl restart php7.0-fpm;systemctl restart nginx;"
+                 },
+                 "stop": {
+                     "cmd": "systemctl stop php7.0-fpm;systemctl stop nginx;"
+                 }
+             },
+             "advanced_actions": ["scale_horizontal"]
+         },
+         {
+             "role": "mysql",
+             "container": {
+                 "type": "kvm",
+                 "zone": "pek3a",
+                 "image": "img-tinndyhg"
+             },
+             "instance_class": {{cluster.mysql.instance_class}},
+             "count": 1,
+             "cpu": {{cluster.mysql.cpu}},
+             "memory": {{cluster.mysql.memory}},
+             "volume": {
+                "size": {{cluster.mysql.volume_size}},
+                "mount_point": "/data",
+                "filesystem": "xfs"
+            },
+             "services": {
+                 "init": {
+                    "cmd": "cp -rf /var/lib/mysql /data;chown -R mysql:mysql /data;"
+                 },
+                 "start": {
+                     "cmd": "systemctl restart mysql;"
+                 },
+                 "restart": {
+                   "cmd": "systemctl restart mysql;"
+                 },
+                 "stop": {
+                     "cmd": "systemctl stop mysql;"
+                 }
+             }
+         },
+         {
+             "role": "redis",
+             "container": {
+                 "type": "kvm",
+                 "zone": "pek3a",
+                 "image": "img-21letbyr"
+             },
+             "instance_class": {{cluster.redis.instance_class}},
+             "count": 1,
+             "cpu": {{cluster.redis.cpu}},
+             "memory": {{cluster.redis.memory}},
+             "services": {
+                 "start": {
+                     "cmd": "systemctl start redis;"
+                 },
+                 "restart": {
+                   "cmd": "systemctl restart redis;"
+                 },
+                 "stop": {
+                     "cmd": "systemctl stop redis;"
+                 }
+             }
+         }
+     ],
+     "env": {
+         "qingstor_access_key_id": {{env.access_key_id}},
+         "qingstor_secret_access_key": {{env.secret_access_key}},
+         "qingstor_zone": {{env.zone}},
+         "qingstor_bucket": {{env.bucket}},
+         "nextcloud_access_address": {{env.access_address}}
+     },
+     "endpoints": {
+         "http": {
+             "port": 80,
+             "protocol": "http"
+         }
+     }
+ }

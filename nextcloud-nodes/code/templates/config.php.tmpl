@@ -1,0 +1,55 @@
+<?php
+{{- $url := split (getv "/env/nextcloud_access_address") "/" }}
+$CONFIG = array (
+  'instanceid' => 'ocnw2s62gga4',
+  'passwordsalt' => 'zkRruQaEhb6mzpb2cUQ2L2kvYqO/59',
+  'secret' => 'Ds8TBOWVD0NClmWVvT5b0Gl7cb68Ggi6iiYjSsb/OkXI8IFd',
+  'trusted_domains' =>
+  array (
+    0 => '{{index $url 2}}'
+  ),
+  'datadirectory' => '/nextcloud/data',
+  'overwrite.cli.url' => '{{getv "/env/nextcloud_access_address"}}',
+  'dbtype' => 'mysql',
+  'version' => '11.0.2.7',
+  'dbname' => 'nextcloud',
+  {{- range $dir := lsdir "/hosts/mysql/"}}
+  {{- $ip := printf "/hosts/mysql/%s/ip" $dir}}
+  'dbhost' => '{{getv $ip}}',
+  {{- end}}
+  'dbport' => '',
+  'dbtableprefix' => 'oc_',
+  'dbuser' => 'oc_admin3',
+  'dbpassword' => 'MWcVI4ibVvZgzzjJK3lhzoEnszIXDC',
+  'logtimezone' => 'UTC',
+  'installed' => true,
+  'updater.release.channel' => 'production',
+  'trashbin_retention_obligation' => 'disabled',
+  'versions_retention_obligation' => 'disabled',
+  'updatechecker' => false,
+  'filelocking.enabled' => true,
+  'memcache.local' => '\\OC\\Memcache\\Redis',
+  'memcache.locking' => '\\OC\\Memcache\\Redis',
+  'redis' =>
+  array (
+    {{- range $dir := lsdir "/hosts/redis/"}}
+    {{- $ip := printf "/hosts/redis/%s/ip" $dir}}
+    'host' => '{{getv $ip}}',
+    {{- end}}
+    'port' => 6379,
+  ),
+  'objectstore' =>
+  array (
+    'class' => 'OC\\Files\\ObjectStore\\QingStor',
+    'arguments' =>
+    array (
+      'bucket' => '{{getv "/env/qingstor_bucket"}}',
+      'key' => '{{getv "/env/qingstor_access_key_id"}}',
+      'secret' => '{{getv "/env/qingstor_secret_access_key"}}',
+      'host' => 'qingstor.com',
+      'zone' => '{{getv "/env/qingstor_zone"}}',
+      'port' => 443,
+      'use_ssl' => true
+    ),
+  ),
+);
